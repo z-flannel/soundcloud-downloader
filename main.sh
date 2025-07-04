@@ -5,10 +5,10 @@ log() {
   local type="$1"; shift
   local color
   case "$type" in
-    INFO)  color='\033[0;36m' ;;  # Cyan
+    INFO)  color='\033[0;35m' ;;  # Cyan
     WARN)  color='\033[0;33m' ;;
     ERROR) color='\033[0;31m' ;;
-    DONE)  color='\033[0;32m' ;;
+    DONE)  color='\033[0;37m' ;;
     *)     color='\033[0m'   ;;
   esac
   echo -e "${color}[${type}]${NC} $*"
@@ -29,7 +29,7 @@ NAME=$(echo "$RAWNAME" | tr -d '\r' | tr ' ' '_' | sed 's/[^a-zA-Z0-9_-]/_/g')
 
 if [ -z "$NAME" ]; then
   NAME="playlist_$(date +%s)"
-  log WARN "Could not determine playlist name, using fallback: $NAME"
+  log WARN "ERR Acquing PlayList name, using fallback: $NAME"
 fi
 
 DEST="$HOME/Music/SoundCloud/$NAME"
@@ -51,7 +51,7 @@ CMD=(
 
 [ $DEBUG -eq 1 ] && CMD+=(--debug)
 
-log INFO "Starting download..."
+log INFO "Your download is starting."
 
 #exec
 "${CMD[@]}" 2>&1 | while IFS= read -r line; do
@@ -66,4 +66,4 @@ log INFO "Starting download..."
   fi
 done
 
-log DONE "Download complete: $NAME"
+log DONE "Downloaded: $NAME"
